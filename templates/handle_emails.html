@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handle Emails</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #223a60;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-secondary {
+            background-color: #007BFF;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-logout {
+            background-color: #f44336;
+            text-decoration: none;
+            padding: 12px 30px;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #e53935;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .results h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .results li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results li:last-child {
+            border-bottom: none;
+        }
+
+        .results strong {
+            color: #2c3e50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Bienvenue, {{ user.username }}</h2>
+        <p>Traitement des emails en cours...</p>
+
+        <!-- Formulaire pour traiter les emails -->
+        <form action="{% url 'handle_emails' %}" method="get">
+            <button type="submit" class="btn">Traiter les Emails</button>
+        </form>
+
+        <!-- Formulaire pour afficher la liste des étudiants -->
+        <form action="{% url 'student_list' %}" method="get" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-secondary">Afficher la Liste des Étudiants</button>
+        </form>
+
+        <!-- Lien pour se déconnecter -->
+        <a href="{% url 'logout' %}" class="btn-logout">Déconnexion</a>
+
+        <!-- Section pour afficher les résultats du traitement -->
+        {% if results %}
+            <div class="results">
+                <h3>Résultats du traitement :</h3>
+                <ul>
+                    {% for result in results %}
+                        <li>
+                            <strong>Sujet :</strong> {{ result.email.subject }}<br>
+                            <strong>Corps :</strong> {{ result.email.body }}<br>
+                            <strong>Réponse :</strong> {{ result.response }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
